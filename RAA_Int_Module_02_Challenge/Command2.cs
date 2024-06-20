@@ -25,9 +25,12 @@ namespace RAA_Int_Module_02_Challenge
             // this is a variable for the current Revit model
             Document doc = uiapp.ActiveUIDocument.Document;
 
-            FilteredElementCollector collector = new FilteredElementCollector(doc);
-            collector.OfCategory(BuiltInCategory.OST_Views);
-            collector.WhereElementIsNotElementType();
+            List<View> collector = GetAllViews(doc);
+            
+            // Old code that didn't filter out view templates
+            //FilteredElementCollector collector = new FilteredElementCollector(doc);
+            //collector.OfCategory(BuiltInCategory.OST_Views);
+            //collector.WhereElementIsNotElementType();
 
             int counter = 0;
             int viewCounter = 0;
@@ -127,6 +130,24 @@ namespace RAA_Int_Module_02_Challenge
 
 
             return Result.Succeeded;
+        }
+
+        public static List<View> GetAllViews(Document curDoc)
+        {
+        	// gets all views and excludes any view templates
+        	List<View> returnList = new List<View>();
+        
+        	FilteredElementCollector viewCollector = new FilteredElementCollector(curDoc);
+        	viewCollector.OfCategory(BuiltInCategory.OST_Views);
+        	viewCollector.WhereElementIsNotElementType();
+        	
+        	foreach (View view in viewCollector)
+        	{
+        		if (view.IsTemplate == false)
+        			returnList.Add(vp);
+        	}
+        
+        	return returnList;
         }
 
         private bool IsCurtainWall(Element curElem)
