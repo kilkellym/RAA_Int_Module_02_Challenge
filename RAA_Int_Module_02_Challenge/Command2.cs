@@ -132,7 +132,7 @@ namespace RAA_Int_Module_02_Challenge
             return Result.Succeeded;
         }
 
-        public static List<View> GetAllViews(Document curDoc)
+        public List<View> GetAllViews(Document curDoc)
         {
         	// gets all views and excludes any view templates
         	List<View> returnList = new List<View>();
@@ -144,7 +144,7 @@ namespace RAA_Int_Module_02_Challenge
         	foreach (View view in viewCollector)
         	{
         		if (view.IsTemplate == false)
-        			returnList.Add(vp);
+        			returnList.Add(view);
         	}
         
         	return returnList;
